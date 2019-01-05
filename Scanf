@@ -1,0 +1,58 @@
+The formatting placeholders in scanf are more or less the same as that in printf, its reverse function.
+
+There are rarely constants (i.e. characters that are not formatting placeholders) in a format string, mainly because a program is
+usually not designed to read known data. The exception is one or more whitespace characters, which discards all whitespace
+characters in the input.
+
+Some of the most commonly used placeholders follow:
+
+    %d : Scan an integer as a signed decimal number.
+    
+    %i : Scan an integer as a signed number. Similar to %d, but interprets the number as hexadecimal when preceded by 0x and octal
+    when preceded by 0. For example, the string 031 would be read as 31 using %d, and 25 using %i. The flag h in %hi indicates 
+    conversion to a short and hh conversion to a char.
+    
+    %u : Scan for decimal unsigned int (Note that in the C99 standard the input value minus sign is optional, so if a minus sign is
+    read, no errors will arise and the result will be the two's complement of a negative number, likely a very large value.
+    See strtoul().[not in citation given]) Correspondingly, %hu scans for an unsigned short and %hhu for an unsigned char.
+    
+    %f : Scan a floating-point number in normal (fixed-point) notation.
+    
+    %g, %G : Scan a floating-point number in either normal or exponential notation. %g uses lower-case letters and %G uses 
+    upper-case.
+    
+    %x, %X : Scan an integer as an unsigned hexadecimal number.
+    
+    %o : Scan an integer as an octal number.
+    
+    %s : Scan a character string. The scan terminates at whitespace. A null character is stored at the end of the string, 
+    which means that the buffer supplied must be at least one character longer than the specified input length.
+    
+    %c : Scan a character (char). No null character is added.
+    
+    whitespace: Any whitespace characters trigger a scan for zero or more whitespace characters. 
+    The number and type of whitespace characters do not need to match in either direction.
+    
+    %lf : Scan as a double floating-point number.
+    
+    %Lf : Scan as a long double floating-point number.
+
+The above can be used in compound with numeric modifiers and the l, L modifiers which stand for "long" in between the percent 
+symbol and the letter. There can also be numeric values between the percent symbol and the letters, preceding the long modifiers
+if any, that specifies the number of characters to be scanned. An optional asterisk (*) right after the percent symbol denotes
+that the datum read by this format specifier is not to be stored in a variable. No argument behind the format string should be 
+included for this dropped variable.
+
+The ff modifier in printf is not present in scanf, causing differences between modes of input and output.
+The ll and hh modifiers are not present in the C90 standard, but are present in the C99 standard.[2]
+
+An example of a format string is
+
+    "%7d%s %c%lf"
+
+The above format string scans the first seven characters as a decimal integer, then reads the remaining as a string until a
+space, new line or tab is found, then consumes whitespace until the first non-whitespace character is found, then consumes that 
+character, and finally scans the remaining characters as a double. Therefore a robust program must check whether the scanf call 
+succeeded and take appropriate action. If the input was not in the correct format, the erroneous data will still be on the input
+stream and must discarded before new input can be read. An alternative method, which avoids this, is to use fgets and then 
+examine the string read in. The last step can be done by sscanf, for example. 
